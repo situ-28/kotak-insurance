@@ -58,44 +58,53 @@ export function DemoLoginPage({ accounts, onLogin, onBack }: DemoLoginPageProps)
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 to-white py-12">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <Button variant="ghost" onClick={onBack} className="text-gray-600 hover:text-gray-900">
-            <ArrowLeft className="h-4 w-4 mr-2" />
+    <div className="min-h-screen bg-gradient-to-br from-red-50 to-white py-6 sm:py-8 lg:py-12">
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
+        <div className="mb-6 sm:mb-8">
+          <Button variant="ghost" onClick={onBack} className="text-gray-600 hover:text-gray-900 text-sm sm:text-base">
+            <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
             Back to Home
           </Button>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {/* Login Form */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6 order-2 lg:order-1">
             <div className="text-center lg:text-left">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Demo Login</h1>
-              <p className="text-gray-600">Access different role-based dashboards with demo credentials</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Demo Login</h1>
+              <p className="text-sm sm:text-base text-gray-600">
+                Access different role-based dashboards with demo credentials
+              </p>
             </div>
 
             <Card className="w-full max-w-md mx-auto lg:mx-0">
-              <CardHeader>
-                <CardTitle>Sign In</CardTitle>
-                <CardDescription>Enter your demo credentials or use quick login below</CardDescription>
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg sm:text-xl">Sign In</CardTitle>
+                <CardDescription className="text-sm">
+                  Enter your demo credentials or use quick login below
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="username">Username</Label>
+                    <Label htmlFor="username" className="text-sm">
+                      Username
+                    </Label>
                     <Input
                       id="username"
                       type="text"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       placeholder="Enter username"
+                      className="text-sm"
                       required
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="password" className="text-sm">
+                      Password
+                    </Label>
                     <div className="relative">
                       <Input
                         id="password"
@@ -103,6 +112,7 @@ export function DemoLoginPage({ accounts, onLogin, onBack }: DemoLoginPageProps)
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Enter password"
+                        className="text-sm pr-10"
                         required
                       />
                       <Button
@@ -113,9 +123,9 @@ export function DemoLoginPage({ accounts, onLogin, onBack }: DemoLoginPageProps)
                         onClick={() => setShowPassword(!showPassword)}
                       >
                         {showPassword ? (
-                          <EyeOff className="h-4 w-4 text-gray-400" />
+                          <EyeOff className="h-3 w-3 sm:h-4 sm:w-4 text-gray-400" />
                         ) : (
-                          <Eye className="h-4 w-4 text-gray-400" />
+                          <Eye className="h-3 w-3 sm:h-4 sm:w-4 text-gray-400" />
                         )}
                       </Button>
                     </div>
@@ -123,11 +133,11 @@ export function DemoLoginPage({ accounts, onLogin, onBack }: DemoLoginPageProps)
 
                   {error && (
                     <Alert variant="destructive">
-                      <AlertDescription>{error}</AlertDescription>
+                      <AlertDescription className="text-sm">{error}</AlertDescription>
                     </Alert>
                   )}
 
-                  <Button type="submit" className="w-full bg-red-600 hover:bg-red-700">
+                  <Button type="submit" className="w-full bg-red-600 hover:bg-red-700 text-sm sm:text-base">
                     Sign In
                   </Button>
                 </form>
@@ -136,13 +146,15 @@ export function DemoLoginPage({ accounts, onLogin, onBack }: DemoLoginPageProps)
           </div>
 
           {/* Demo Accounts */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6 order-1 lg:order-2">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Demo Accounts</h2>
-              <p className="text-gray-600">Click on any account below for quick login or copy the credentials</p>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Demo Accounts</h2>
+              <p className="text-sm sm:text-base text-gray-600">
+                Click on any account below for quick login or copy the credentials
+              </p>
             </div>
 
-            <div className="grid gap-4">
+            <div className="grid gap-3 sm:gap-4">
               {accounts.map((account) => (
                 <Card
                   key={account.id}
@@ -156,22 +168,27 @@ export function DemoLoginPage({ accounts, onLogin, onBack }: DemoLoginPageProps)
                           : "border-l-purple-500"
                   } ${selectedAccount?.id === account.id ? "ring-2 ring-red-500 bg-red-50" : "hover:bg-gray-50"}`}
                 >
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
+                  <CardContent className="p-3 sm:p-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
+                      <div className="flex items-center space-x-2 sm:space-x-3">
                         {getRoleIcon(account.role)}
                         <div>
-                          <h3 className="font-semibold text-gray-900">{account.name}</h3>
-                          <p className="text-sm text-gray-600">{account.level || account.role}</p>
+                          <h3 className="font-semibold text-gray-900 text-sm sm:text-base">{account.name}</h3>
+                          <p className="text-xs sm:text-sm text-gray-600">{account.level || account.role}</p>
                         </div>
                       </div>
-                      <div className="flex space-x-2">
-                        <Button variant="outline" size="sm" onClick={() => handleQuickLogin(account)}>
+                      <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleQuickLogin(account)}
+                          className="text-xs sm:text-sm w-full sm:w-auto"
+                        >
                           Fill Form
                         </Button>
                         <Button
                           size="sm"
-                          className="bg-red-600 hover:bg-red-700"
+                          className="bg-red-600 hover:bg-red-700 text-xs sm:text-sm w-full sm:w-auto"
                           onClick={() => handleQuickLoginSubmit(account)}
                         >
                           Quick Login
@@ -180,10 +197,10 @@ export function DemoLoginPage({ accounts, onLogin, onBack }: DemoLoginPageProps)
                     </div>
 
                     <div className="mt-3 pt-3 border-t border-gray-200">
-                      <div className="grid grid-cols-2 gap-4 text-xs">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 text-xs">
                         <div>
                           <span className="font-medium text-gray-500">Username:</span>
-                          <p className="font-mono text-gray-900">{account.username}</p>
+                          <p className="font-mono text-gray-900 break-all">{account.username}</p>
                         </div>
                         <div>
                           <span className="font-medium text-gray-500">Password:</span>

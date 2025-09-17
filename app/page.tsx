@@ -8,8 +8,7 @@ import { FeaturesSection } from "@/components/features-section"
 import { Footer } from "@/components/footer"
 import { OwnerDashboard } from "@/components/dashboards/owner-dashboard"
 import { TeamDashboard } from "@/components/dashboards/team-dashboard"
-import { DirectPartnerDashboard } from "@/components/dashboards/direct-partner-dashboard"
-import { AgentDashboard } from "@/components/dashboards/agent-dashboard"
+import { PartnerDashboard } from "@/components/dashboards/partner-dashboard"
 import { DemoLoginPage } from "@/components/demo-login-page"
 
 export type DemoAccount = {
@@ -17,6 +16,7 @@ export type DemoAccount = {
   name: string
   role: string
   level?: string
+  levelNumber?: number
   username: string
   password: string
   email: string
@@ -25,6 +25,7 @@ export type DemoAccount = {
 export default function HomePage() {
   const [currentUser, setCurrentUser] = useState<DemoAccount | null>(null)
   const [showLogin, setShowLogin] = useState(false)
+  const [users, setUsers] = useState<any[]>([])
 
   const demoAccounts: DemoAccount[] = [
     {
@@ -44,9 +45,11 @@ export default function HomePage() {
       email: "priya.sharma@kotaklife.com",
     },
     {
-      id: "direct-partner",
+      id: "direct-partner-inactive",
       name: "Amit Patel",
       role: "Direct Partner",
+      level: "Direct Partner (Inactive)",
+      levelNumber: 0,
       username: "amit.partner",
       password: "partner123",
       email: "amit.patel@partner.com",
@@ -55,7 +58,8 @@ export default function HomePage() {
       id: "level1",
       name: "Sunita Singh",
       role: "Level 1 Agent",
-      level: "Level 1",
+      level: "Level 1 Agent",
+      levelNumber: 1,
       username: "sunita.l1",
       password: "agent123",
       email: "sunita.singh@agent.com",
@@ -64,7 +68,8 @@ export default function HomePage() {
       id: "level2",
       name: "Vikram Gupta",
       role: "Level 2 Agent",
-      level: "Level 2",
+      level: "Level 2 Agent",
+      levelNumber: 2,
       username: "vikram.l2",
       password: "agent123",
       email: "vikram.gupta@agent.com",
@@ -73,7 +78,8 @@ export default function HomePage() {
       id: "level3",
       name: "Neha Joshi",
       role: "Level 3 Agent",
-      level: "Level 3",
+      level: "Level 3 Agent",
+      levelNumber: 3,
       username: "neha.l3",
       password: "agent123",
       email: "neha.joshi@agent.com",
@@ -95,22 +101,33 @@ export default function HomePage() {
     setShowLogin(false)
   }
 
+  const handleAddUser = (userData: any) => {
+    const newUser = {
+      ...userData,
+      id: `user_${Date.now()}`,
+      createdAt: new Date().toISOString(),
+      createdBy: currentUser?.name || "System",
+    }
+    setUsers((prev) => [...prev, newUser])
+    console.log("[v0] User added to system:", newUser)
+  }
+
   const renderDashboard = () => {
     if (!currentUser) return null
 
     switch (currentUser.id) {
       case "owner":
-        return <OwnerDashboard />
+        return <OwnerDashboard onAddUser={handleAddUser} />
       case "team":
         return <TeamDashboard />
-      case "direct-partner":
-        return <DirectPartnerDashboard />
+      case "direct-partner-inactive":
+        return <PartnerDashboard partnerLevel={0} partnerName={currentUser.name} onAddUser={handleAddUser} />
       case "level1":
-        return <AgentDashboard level={1} />
+        return <PartnerDashboard partnerLevel={1} partnerName={currentUser.name} onAddUser={handleAddUser} />
       case "level2":
-        return <AgentDashboard level={2} />
+        return <PartnerDashboard partnerLevel={2} partnerName={currentUser.name} onAddUser={handleAddUser} />
       case "level3":
-        return <AgentDashboard level={3} />
+        return <PartnerDashboard partnerLevel={3} partnerName={currentUser.name} onAddUser={handleAddUser} />
       default:
         return null
     }
